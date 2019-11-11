@@ -1,24 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+const numberOfRows = 10;
+const numberOfColumns = 16;
+const table = new Array(numberOfColumns);
+
+for (let column = 0; column < numberOfColumns; column++) {
+  table[column] = new Array(numberOfRows).fill("");
+}
+
 function App() {
+  
+  function renderRows() {
+    return (
+      <div>
+        {this.state.table.map((row, counter) => {
+          return (<div className="row" key={counter}>{row.map((cell, index) => {
+            return (<div className="empty" key={index}>{cell}</div>)
+          })}</div>)
+        })
+        }
+      </div>
+    )
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        {renderRows}
     </div>
   );
 }
