@@ -1,5 +1,5 @@
 body {
-  margin-top: 70px;
+  margin-top: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,7 +21,7 @@ body {
 }
  
  .empty {
-   padding: 5px;
+   padding: 25px;
    font-size: 25px;
    font-weight: bold;
    min-width: 25px;

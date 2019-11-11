@@ -1,8 +1,9 @@
 import React from 'react';
 import './App.css';
+import Table from './Table'
 
-const numberOfRows = 10;
-const numberOfColumns = 16;
+const numberOfRows = 8;
+const numberOfColumns = 8;
 const table = new Array(numberOfColumns);
 
 for (let column = 0; column < numberOfColumns; column++) {
@@ -10,24 +11,10 @@ for (let column = 0; column < numberOfColumns; column++) {
 }
 
 function App() {
-  
-  function renderRows() {
-    return (
-      <div>
-        {this.state.table.map((row, counter) => {
-          return (<div className="row" key={counter}>{row.map((cell, index) => {
-            return (<div className="empty" key={index}>{cell}</div>)
-          })}</div>)
-        })
-        }
-      </div>
-    )
-  }
-
 
   return (
     <div className="App">
-        {renderRows}
+      <Table table={table}/>
     </div>
   );
 }
