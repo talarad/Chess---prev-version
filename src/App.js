@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Table from './Table'
 import firstTable from './first-table'
+import GreetingNewUser from './GreetingNewUser'
 
 
 // export default class App extends React.Component {
@@ -20,6 +21,8 @@ import firstTable from './first-table'
 export default function App() {
   const [table, updateTable] = useState(firstTable)
   const [isClicked, click] = useState(false);
+  const [isNewClient, setIsNewClient] = useState(true);
+  const [user, setUser] = useState({ username: null, password: null })
 
   function cellOnClick(row, column) {
     const newTable = [...table]
@@ -31,10 +34,18 @@ export default function App() {
   function onMove(row, column) {
 
   }
-
-  return (
-    <div className="App" >
+  if (isNewClient) {
+    return (
+      <div className="App" >
+        <GreetingNewUser setIsNewClient={setIsNewClient} setUser={setUser} />;
       <Table table={table} cellOnClick={cellOnClick} clicked={isClicked} onMove={onMove} />
-    </div>
-  );
+      </div>
+    )
+  } else {
+    return (
+      <div className="App">
+        <Table table={table} cellOnClick={cellOnClick} clicked={isClicked} onMove={onMove} />
+      </div>
+    );
+  }
 }
