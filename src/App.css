@@ -1,5 +1,5 @@
 body {
-  margin-top: 50px;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,13 +20,78 @@ body {
   flex-direction: row;
 }
  
- .empty {
-   padding: 25px;
+ .black-cell {
+   display: flex;
+   padding: 27.5px;
    font-size: 25px;
    font-weight: bold;
-   min-width: 25px;
-   min-height: 25px;
-   background-color: rgba(128, 128, 128, 0.5);
-   border: 1px solid black;
+   width: 27.5px;
+   height: 27.5px;
+   background-color:black;
+   border: 1px solid white;
    cursor: pointer;
+   color: white;
+  text-align: center;
+  justify-content: center;
  }
+
+ .white-cell {
+  display: flex;
+  padding: 27.5px;
+  font-size: 25px;
+  font-weight: bold;
+  width: 27.5px;
+  height: 27.5px;
+  background-color: white;
+  border: 1px solid black;
+  cursor: pointer;
+ text-align: center;
+ justify-content: center;
+}
+
+.cell {
+  display: flex;
+  padding: 27.5px;
+  font-size: 25px;
+  font-weight: bold;
+  width: 27.5px;
+  height: 27.5px;
+  background-color: rgba(128, 128, 128, 0.5);;
+  border: 1px solid black;
+  cursor: pointer;
+ text-align: center;
+ justify-content: center;
+}
+
+.black-cell-clicked {
+  display: flex;
+  padding: 27.5px;
+  font-size: 25px;
+  font-weight: bold;
+  width: 27.5px;
+  height: 27.5px;
+  background-color:#000000;
+  border: 1px solid yellow;
+  cursor: pointer;
+  color: white;
+ text-align: center;
+ justify-content: center;
+}
+
+.white-cell-clicked {
+ display: flex;
+ padding: 27.5px;
+ font-size: 25px;
+ font-weight: bold;
+ width: 27.5px;
+ height: 27.5px;
+ background-color: white;
+ border: 1px solid yellow;
+ cursor: pointer;
+text-align: center;
+justify-content: center;
+}
+
+
+
+
