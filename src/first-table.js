@@ -16,9 +16,6 @@ for (let row = 0; row < numberOfColumns; row++) {
     }
 }
 
-console.log(JSON.parse(JSON.stringify(table)))
-console.log(table)
-
 table[0][0].name = 'rook';
 table[0][7].name = 'rook';
 table[7][0].name = 'rook';
