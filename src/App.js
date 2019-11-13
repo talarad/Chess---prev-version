@@ -15,7 +15,9 @@ export default function App() {
   const [clickedColumn, updateColumn] = useState();
 
   function onCellClick(row, column) {
+    
     if (isClicked) {
+      
       onMove(row, column)
     } else {
       if (table[row][column].name === "") return;
@@ -32,8 +34,9 @@ export default function App() {
     const newTable = [...table]
     newTable[clickedRow][clickedColumn].clicked = false;
     const movedPiece = { ...newTable[clickedRow][clickedColumn] }
-
+    
     if(row === clickedRow && column === clickedColumn) {
+      
       newTable[row][column].clicked = false;
       removeClick(newTable);
       return;

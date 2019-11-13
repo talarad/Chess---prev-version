@@ -4,7 +4,6 @@ import './App.css';
 
 export default function Table(props) {
     
-    console.log(props.table)
     return (
         <div>
             {props.table.map((row, counter) => {

@@ -31,152 +31,69 @@ body {
   display: flex;
 }
 
-.Eblack-cell {
+.black-cell {
   display: flex;
-  padding: 27.5px;
   font-size: 25px;
   font-weight: bold;
-  width: 27.5px;
-  height: 27.5px;
-  background-color:black;
+  width: 80px;
+  height: 80px;
+  background-color:grey;
   border: 1px solid black;
   cursor: pointer;
-  color: white;
+  color: black;
  text-align: center;
  justify-content: center;
 }
 
-.Ewhite-cell {
+.white-cell {
  display: flex;
- padding: 27.5px;
  font-size: 25px;
  font-weight: bold;
- width: 27.5px;
- height: 27.5px;
- background-color: white;
+ width: 80px;
+ height: 80px;
+ background-color: grey;
  border: 1px solid black;
  cursor: pointer;
 text-align: center;
 justify-content: center;
 }
 
-.Ecell {
+.cell {
  display: flex;
- padding: 27.5px;
  font-size: 25px;
  font-weight: bold;
- width: 27.5px;
- height: 27.5px;
- background-color: rgba(128, 128, 128, 0.5);;
+ width: 80px;
+ height: 80px;
+ background-color: grey;;
  border: 1px solid black;
  cursor: pointer;
 text-align: center;
 justify-content: center;
 }
 
-.Eblack-cell-clicked {
+.black-cell-clicked {
  display: flex;
- padding: 27.5px;
  font-size: 25px;
  font-weight: bold;
- width: 27.5px;
- height: 27.5px;
- background-color:#000000;
+ width: 80px;
+ height: 80px;
+ background-color:grey;
  border: 1px solid yellow;
  cursor: pointer;
- color: white;
+ color: black;
 text-align: center;
 justify-content: center;
 }
 
-.Ewhite-cell-clicked {
+.white-cell-clicked {
 display: flex;
-padding: 27.5px;
 font-size: 25px;
 font-weight: bold;
-width: 27.5px;
-height: 27.5px;
-background-color: white;
+width: 80px;
+height: 80px;
+background-color: grey;
 border: 1px solid yellow;
 cursor: pointer;
 text-align: center;
 justify-content: center;
 }
-
-
-/***********************************/
-
-.Oblack-cell {
-  display: flex;
-  padding: 27.5px;
-  font-size: 25px;
-  font-weight: bold;
-  width: 27.5px;
-  height: 27.5px;
-  background-color:black;
-  border: 1px solid white;
-  cursor: pointer;
-  color: white;
- text-align: center;
- justify-content: center;
-}
-
-.Owhite-cell {
- display: flex;
- padding: 27.5px;
- font-size: 25px;
- font-weight: bold;
- width: 27.5px;
- height: 27.5px;
- background-color: white;
- border: 1px solid black;
- cursor: pointer;
-text-align: center;
-justify-content: center;
-}
-
-.Ocell {
- display: flex;
- padding: 27.5px;
- font-size: 25px;
- font-weight: bold;
- width: 27.5px;
- height: 27.5px;
- background-color: rgba(128, 128, 128, 0.5);;
- border: 1px solid black;
- cursor: pointer;
-text-align: center;
-justify-content: center;
-}
-
-.Oblack-cell-clicked {
- display: flex;
- padding: 27.5px;
- font-size: 25px;
- font-weight: bold;
- width: 27.5px;
- height: 27.5px;
- background-color:#000000;
- border: 1px solid yellow;
- cursor: pointer;
- color: white;
-text-align: center;
-justify-content: center;
-}
-
-.Owhite-cell-clicked {
-display: flex;
-padding: 27.5px;
-font-size: 25px;
-font-weight: bold;
-width: 27.5px;
-height: 27.5px;
-background-color: white;
-border: 1px solid yellow;
-cursor: pointer;
-text-align: center;
-justify-content: center;
-}
-
-
-
