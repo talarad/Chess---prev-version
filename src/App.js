@@ -13,11 +13,12 @@ export default function App() {
   const [user, setUser] = useState({ username: null, password: null })
   const [clickedRow, updateRow] = useState();
   const [clickedColumn, updateColumn] = useState();
+  const [player, updatePlayer] = useState("white")
 
   function onCellClick(row, column) {
-    
+    if (!isClicked && table[row][column].side !== player) return;
+
     if (isClicked) {
-      
       onMove(row, column)
     } else {
       if (table[row][column].name === "") return;
@@ -34,9 +35,8 @@ export default function App() {
     const newTable = [...table]
     newTable[clickedRow][clickedColumn].clicked = false;
     const movedPiece = { ...newTable[clickedRow][clickedColumn] }
-    
-    if(row === clickedRow && column === clickedColumn) {
-      
+
+    if (row === clickedRow && column === clickedColumn) {
       newTable[row][column].clicked = false;
       removeClick(newTable);
       return;
@@ -49,12 +49,13 @@ export default function App() {
       newTable[row][column] = movedPiece;
       moveSound.play()
       removeClick(newTable);
+      updatePlayer(player === "white" ? "black" : "white")
     }
   }
 
   function removeClick(newTable) {
     updateTable(newTable);
-      click(!isClicked)
+    click(!isClicked)
   }
 
   function checkValidity(row, column, piece) {
