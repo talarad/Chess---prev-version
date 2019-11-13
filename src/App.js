@@ -4,6 +4,8 @@ import Table from './Table'
 import firstTable from './first-table'
 import GreetingNewUser from './GreetingNewUser'
 
+const moveSound = new Audio(require('./moveSound.wav'));
+
 export default function App() {
   const [table, updateTable] = useState(firstTable)
   const [isClicked, click] = useState(false);
@@ -16,7 +18,7 @@ export default function App() {
     if (isClicked) {
       onMove(row, column)
     } else {
-      if(table[row][column].name === "") return;
+      if (table[row][column].name === "") return;
       const newTable = [...table]
       table[row][column].clicked = true;
       updateTable(newTable)
@@ -31,11 +33,77 @@ export default function App() {
     newTable[clickedRow][clickedColumn].clicked = false;
     const movedPiece = { ...newTable[clickedRow][clickedColumn] }
 
-    newTable[clickedRow][clickedColumn] = "";
-    newTable[row][column] = movedPiece;
+    if(row === clickedRow && column === clickedColumn) {
+      newTable[row][column].clicked = false;
+      removeClick(newTable);
+      return;
+    }
 
+    const isValid = checkValidity(row, column, movedPiece)
+
+    if (isValid) {
+      newTable[clickedRow][clickedColumn] = { name: "" };
+      newTable[row][column] = movedPiece;
+      moveSound.play()
+      removeClick(newTable);
+    }
+  }
+
+  function removeClick(newTable) {
     updateTable(newTable);
-    click(!isClicked)
+      click(!isClicked)
+  }
+
+  function checkValidity(row, column, piece) {
+    if (piece.name === "pawn") {
+      return pawnCheck(row, column, piece)
+    } else if (piece.name === "rook") {
+      return rookCheck(row, column)
+    } else if (piece.name === "bishop") {
+      return bishopCheck(row, column)
+    } else if (piece.name === "king") {
+      return kingCheck(row, column)
+    } else if (piece.name === "queen") {
+      return queenCheck(row, column)
+    } else if (piece.name === "knight") {
+      return knightCheck(row, column)
+    }
+
+    return true;
+  }
+
+  function pawnCheck(row, column, piece) {
+    if (column === clickedColumn) {
+      if (piece.side === "white") {
+        if (clickedRow - row === 1 || ((clickedRow === 1 || clickedRow === 6) && clickedRow - row === 2))
+          return true
+      } else if (row - clickedRow === 1 || ((clickedRow === 1 || clickedRow === 6) && row - clickedRow === 2))
+        return true
+      else {
+        return false
+      }
+    }
+  }
+
+  function rookCheck(row, column) {
+    return column === clickedColumn || row === clickedRow
+  }
+
+  function bishopCheck(row, column) {
+    return Math.abs(clickedRow - row) === Math.abs(clickedColumn - column)
+  }
+
+  function kingCheck(row, column) {
+    return Math.abs(row - clickedRow) <= 1 && Math.abs(column - clickedColumn) <= 1
+  }
+
+  function queenCheck(row, column) {
+    return bishopCheck(row, column) || rookCheck(row, column)
+  }
+
+  function knightCheck(row, column) {
+    return (Math.abs(row - clickedRow) === 2 && Math.abs(column - clickedColumn) === 1) ||
+      ((Math.abs(row - clickedRow) === 1 && Math.abs(column - clickedColumn) === 2))
   }
 
 

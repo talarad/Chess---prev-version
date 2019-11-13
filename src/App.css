@@ -19,78 +19,6 @@ body {
   display: flex;
   flex-direction: row;
 }
- 
- .black-cell {
-   display: flex;
-   padding: 27.5px;
-   font-size: 25px;
-   font-weight: bold;
-   width: 27.5px;
-   height: 27.5px;
-   background-color:black;
-   border: 1px solid white;
-   cursor: pointer;
-   color: white;
-  text-align: center;
-  justify-content: center;
- }
-
- .white-cell {
-  display: flex;
-  padding: 27.5px;
-  font-size: 25px;
-  font-weight: bold;
-  width: 27.5px;
-  height: 27.5px;
-  background-color: white;
-  border: 1px solid black;
-  cursor: pointer;
- text-align: center;
- justify-content: center;
-}
-
-.cell {
-  display: flex;
-  padding: 27.5px;
-  font-size: 25px;
-  font-weight: bold;
-  width: 27.5px;
-  height: 27.5px;
-  background-color: rgba(128, 128, 128, 0.5);;
-  border: 1px solid black;
-  cursor: pointer;
- text-align: center;
- justify-content: center;
-}
-
-.black-cell-clicked {
-  display: flex;
-  padding: 27.5px;
-  font-size: 25px;
-  font-weight: bold;
-  width: 27.5px;
-  height: 27.5px;
-  background-color:#000000;
-  border: 1px solid yellow;
-  cursor: pointer;
-  color: white;
- text-align: center;
- justify-content: center;
-}
-
-.white-cell-clicked {
- display: flex;
- padding: 27.5px;
- font-size: 25px;
- font-weight: bold;
- width: 27.5px;
- height: 27.5px;
- background-color: white;
- border: 1px solid yellow;
- cursor: pointer;
-text-align: center;
-justify-content: center;
-}
 
 .button {
   display: flex;
@@ -101,6 +29,153 @@ justify-content: center;
 
 #login {
   display: flex;
+}
+
+.Eblack-cell {
+  display: flex;
+  padding: 27.5px;
+  font-size: 25px;
+  font-weight: bold;
+  width: 27.5px;
+  height: 27.5px;
+  background-color:black;
+  border: 1px solid black;
+  cursor: pointer;
+  color: white;
+ text-align: center;
+ justify-content: center;
+}
+
+.Ewhite-cell {
+ display: flex;
+ padding: 27.5px;
+ font-size: 25px;
+ font-weight: bold;
+ width: 27.5px;
+ height: 27.5px;
+ background-color: white;
+ border: 1px solid black;
+ cursor: pointer;
+text-align: center;
+justify-content: center;
+}
+
+.Ecell {
+ display: flex;
+ padding: 27.5px;
+ font-size: 25px;
+ font-weight: bold;
+ width: 27.5px;
+ height: 27.5px;
+ background-color: rgba(128, 128, 128, 0.5);;
+ border: 1px solid black;
+ cursor: pointer;
+text-align: center;
+justify-content: center;
+}
+
+.Eblack-cell-clicked {
+ display: flex;
+ padding: 27.5px;
+ font-size: 25px;
+ font-weight: bold;
+ width: 27.5px;
+ height: 27.5px;
+ background-color:#000000;
+ border: 1px solid yellow;
+ cursor: pointer;
+ color: white;
+text-align: center;
+justify-content: center;
+}
+
+.Ewhite-cell-clicked {
+display: flex;
+padding: 27.5px;
+font-size: 25px;
+font-weight: bold;
+width: 27.5px;
+height: 27.5px;
+background-color: white;
+border: 1px solid yellow;
+cursor: pointer;
+text-align: center;
+justify-content: center;
+}
+
+
+/***********************************/
+
+.Oblack-cell {
+  display: flex;
+  padding: 27.5px;
+  font-size: 25px;
+  font-weight: bold;
+  width: 27.5px;
+  height: 27.5px;
+  background-color:black;
+  border: 1px solid white;
+  cursor: pointer;
+  color: white;
+ text-align: center;
+ justify-content: center;
+}
+
+.Owhite-cell {
+ display: flex;
+ padding: 27.5px;
+ font-size: 25px;
+ font-weight: bold;
+ width: 27.5px;
+ height: 27.5px;
+ background-color: white;
+ border: 1px solid black;
+ cursor: pointer;
+text-align: center;
+justify-content: center;
+}
+
+.Ocell {
+ display: flex;
+ padding: 27.5px;
+ font-size: 25px;
+ font-weight: bold;
+ width: 27.5px;
+ height: 27.5px;
+ background-color: rgba(128, 128, 128, 0.5);;
+ border: 1px solid black;
+ cursor: pointer;
+text-align: center;
+justify-content: center;
+}
+
+.Oblack-cell-clicked {
+ display: flex;
+ padding: 27.5px;
+ font-size: 25px;
+ font-weight: bold;
+ width: 27.5px;
+ height: 27.5px;
+ background-color:#000000;
+ border: 1px solid yellow;
+ cursor: pointer;
+ color: white;
+text-align: center;
+justify-content: center;
+}
+
+.Owhite-cell-clicked {
+display: flex;
+padding: 27.5px;
+font-size: 25px;
+font-weight: bold;
+width: 27.5px;
+height: 27.5px;
+background-color: white;
+border: 1px solid yellow;
+cursor: pointer;
+text-align: center;
+justify-content: center;
 }
 
 
