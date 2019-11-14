@@ -3,6 +3,7 @@ import './App.css';
 import Table from './Table'
 import firstTable from './first-table'
 import GreetingNewUser from './GreetingNewUser'
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 const moveSound = new Audio(require('./moveSound.wav'));
 
@@ -11,8 +12,8 @@ export default function App() {
   const [isClicked, click] = useState(false);
   const [isNewClient, setIsNewClient] = useState(true);
   const [user, setUser] = useState({ username: null, password: null })
-  const [clickedRow, updateRow] = useState();
-  const [clickedColumn, updateColumn] = useState();
+  const [currentRow, updateRow] = useState();
+  const [currentColumn, updateColumn] = useState();
   const [player, updatePlayer] = useState("white")
 
   function onCellClick(row, column) {
@@ -33,19 +34,19 @@ export default function App() {
 
   function onMove(row, column) {
     const newTable = [...table]
-    newTable[clickedRow][clickedColumn].clicked = false;
-    const movedPiece = { ...newTable[clickedRow][clickedColumn] }
+    newTable[currentRow][currentColumn].clicked = false;
+    const movedPiece = { ...newTable[currentRow][currentColumn] }
 
-    if (row === clickedRow && column === clickedColumn) {
+    if (row === currentRow && column === currentColumn) {
       newTable[row][column].clicked = false;
       removeClick(newTable);
       return;
     }
 
-    const isValid = checkValidity(row, column, movedPiece)
+    const isValid = isMoveValid(row, column, movedPiece)
 
     if (isValid) {
-      newTable[clickedRow][clickedColumn] = { name: "" };
+      newTable[currentRow][currentColumn] = { name: "" };
       newTable[row][column] = movedPiece;
       moveSound.play()
       removeClick(newTable);
@@ -58,58 +59,129 @@ export default function App() {
     click(!isClicked)
   }
 
-  function checkValidity(row, column, piece) {
+  function isMoveValid(row, column, piece) {
     if (piece.name === "pawn") {
-      return pawnCheck(row, column, piece)
+      return isPawnMoveValid(row, column, piece)
     } else if (piece.name === "rook") {
-      return rookCheck(row, column)
+      return isRookMoveValid(row, column)
     } else if (piece.name === "bishop") {
-      return bishopCheck(row, column)
+      return isBishopMoveValid(row, column)
     } else if (piece.name === "king") {
-      return kingCheck(row, column)
+      return isKingMoveValid(row, column)
     } else if (piece.name === "queen") {
-      return queenCheck(row, column)
+      return isQueenMoveValid(row, column)
     } else if (piece.name === "knight") {
-      return knightCheck(row, column)
+      return isKnightMoveValid(row, column)
     }
 
     return true;
   }
 
-  function pawnCheck(row, column, piece) {
-    if (column === clickedColumn) {
+  function isPawnMoveValid(row, column, piece) {
+    console.log(piece)
+    if (column === currentColumn) {
+      if (table[row][column].name !== "") return false
       if (piece.side === "white") {
-        if (clickedRow - row === 1 || ((clickedRow === 1 || clickedRow === 6) && clickedRow - row === 2))
+        if (currentRow - row === 1 || (piece.firstMove && currentRow - row === 2)) {
+          piece.firstMove = false;
           return true
-      } else if (row - clickedRow === 1 || ((clickedRow === 1 || clickedRow === 6) && row - clickedRow === 2))
+        }
+      } else if (row - currentRow === 1 || (piece.firstMove && row - currentRow === 2)) {
+        piece.firstMove = false;
         return true
+      }
       else {
         return false
       }
+    } else if (table[row][column].name !== "" && Math.abs(column - currentColumn) === 1) {
+      if ((piece.side === "white" && row - currentRow === -1) ||
+        (piece.side === "black" && row - currentRow === 1)) {
+        return true
+      }
+    } else return false
+  }
+
+  function isRookPathBlocked(row, column) {
+    if (row !== currentRow) {
+      if (row > currentRow) {
+        for (let i = currentRow + 1; i < row; i++) {
+          if (table[i][currentColumn].name !== "") return false;
+        }
+      } else {
+        for (let i = currentRow - 1; i > row; i--) {
+          if (table[i][currentColumn].name !== "") return false;
+        }
+      }
+    } else {
+      if (column > currentColumn) {
+        for (let i = currentColumn + 1; i < column; i++) {
+          if (table[currentRow][i].name !== "") return false;
+        }
+      } else {
+        for (let i = currentColumn - 1; i > column; i--) {
+          if (table[currentRow][i].name !== "") return false;
+        }
+      }
     }
+
+    return true;
   }
 
-  function rookCheck(row, column) {
-    return column === clickedColumn || row === clickedRow
+  function isBishopPathBlocked(row, column) {
+    if (row > currentRow) {
+      if (column > currentColumn) {
+        for (let i = 1; i < Math.abs(currentRow - row); i++) {
+          if (table[currentRow + i][currentColumn + i].name !== "") return false;
+        }
+      } else {
+        for (let i = 1; i < Math.abs(currentRow - row); i++) {
+          if (table[currentRow + i][currentColumn - i].name !== "") return false;
+        }
+      }
+    } else {
+      if (column > currentColumn) {
+        for (let i = 1; i < Math.abs(currentRow - row); i++) {
+          if (table[currentRow - i][currentColumn + i].name !== "") return false;
+        }
+      } else {
+        for (let i = 1; i < Math.abs(currentRow - row); i++) {
+          if (table[currentRow - i][currentColumn - i].name !== "") return false;
+        }
+      }
+    }
+    return true;
   }
 
-  function bishopCheck(row, column) {
-    return Math.abs(clickedRow - row) === Math.abs(clickedColumn - column)
+  function isRookMoveValid(row, column) {
+    if (!(column === currentColumn || row === currentRow)) return false
+    if (table[row][column].side === table[currentRow][currentColumn].side) return false
+    if (Math.abs(row - currentRow) === 1 || Math.abs(column - currentColumn) === 1) return true
+
+    return isRookPathBlocked(row, column)
   }
 
-  function kingCheck(row, column) {
-    return Math.abs(row - clickedRow) <= 1 && Math.abs(column - clickedColumn) <= 1
+  function isBishopMoveValid(row, column) {
+    if (Math.abs(currentRow - row) !== Math.abs(currentColumn - column)) return false
+    if (table[row][column].side === table[currentRow][currentColumn].side) return false
+    if (Math.abs(row - currentRow) === 1 && Math.abs(column - currentColumn) === 1) return true
+
+    return isBishopPathBlocked(row, column)
   }
 
-  function queenCheck(row, column) {
-    return bishopCheck(row, column) || rookCheck(row, column)
+  function isKingMoveValid(row, column) {
+    return table[row][column].side !== table[currentRow][currentColumn].side &&
+    Math.abs(row - currentRow) <= 1 && Math.abs(column - currentColumn) <= 1
   }
 
-  function knightCheck(row, column) {
-    return (Math.abs(row - clickedRow) === 2 && Math.abs(column - clickedColumn) === 1) ||
-      ((Math.abs(row - clickedRow) === 1 && Math.abs(column - clickedColumn) === 2))
+  function isQueenMoveValid(row, column) {
+    return isBishopMoveValid(row, column) || isRookMoveValid(row, column)
   }
 
+  function isKnightMoveValid(row, column) {
+    return ((table[row][column].side !== table[currentRow][currentColumn].side) &&
+      ((Math.abs(row - currentRow) === 2 && Math.abs(column - currentColumn) === 1) ||
+        ((Math.abs(row - currentRow) === 1 && Math.abs(column - currentColumn) === 2))))
+  }
 
   if (isNewClient) {
     return (
