@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Table from './Table'
 import firstTable from './first-table'
-import GreetingNewUser from './GreetingNewUser'
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
+//import GreetingNewUser from './GreetingNewUser'
+//import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 const moveSound = new Audio(require('./moveSound.wav'));
 
 export default function App() {
   const [table, updateTable] = useState(firstTable)
   const [isClicked, click] = useState(false);
-  const [isNewClient, setIsNewClient] = useState(true);
-  const [user, setUser] = useState({ username: null, password: null })
+  //const [isNewClient, setIsNewClient] = useState(true);
+  //const [user, setUser] = useState({ username: null, password: null })
   const [currentRow, updateRow] = useState();
   const [currentColumn, updateColumn] = useState();
   const [player, updatePlayer] = useState("white")
@@ -48,10 +48,14 @@ export default function App() {
     if (isValid) {
       newTable[currentRow][currentColumn] = { name: "" };
       newTable[row][column] = movedPiece;
-      moveSound.play()
-      removeClick(newTable);
-      updatePlayer(player === "white" ? "black" : "white")
+      moveValid(row, column, newTable)
     }
+  }
+
+  function moveValid(row, column, newTable) {
+    moveSound.play()
+    removeClick(newTable);
+    updatePlayer(player === "white" ? "black" : "white")
   }
 
   function removeClick(newTable) {
@@ -67,7 +71,7 @@ export default function App() {
     } else if (piece.name === "bishop") {
       return isBishopMoveValid(row, column)
     } else if (piece.name === "king") {
-      return isKingMoveValid(row, column)
+      return isKingMoveValid(row, column, piece)
     } else if (piece.name === "queen") {
       return isQueenMoveValid(row, column)
     } else if (piece.name === "knight") {
@@ -78,7 +82,6 @@ export default function App() {
   }
 
   function isPawnMoveValid(row, column, piece) {
-    console.log(piece)
     if (column === currentColumn) {
       if (table[row][column].name !== "") return false
       if (piece.side === "white") {
@@ -168,10 +171,57 @@ export default function App() {
     return isBishopPathBlocked(row, column)
   }
 
-  function isKingMoveValid(row, column) {
-    return table[row][column].side !== table[currentRow][currentColumn].side &&
-    Math.abs(row - currentRow) <= 1 && Math.abs(column - currentColumn) <= 1
+  function isKingMoveValid(row, column, piece) {
+    if (table[row][column].side !== table[currentRow][currentColumn].side &&
+      Math.abs(row - currentRow) <= 1 && Math.abs(column - currentColumn) <= 1) return true
+
+    if (piece.name === 'king' && piece.firstMove) {
+      //moving right
+      if (column - currentColumn === 2 && table[row][currentColumn + 3].name === 'rook' && table[row][currentColumn + 3].firstMove &&
+        table[row][currentColumn + 1].name === '' && table[row][currentColumn + 2].name === '') {
+        //castling
+        rightCastle(row, column, piece);
+      }
+      if (column - currentColumn === -2 && table[row][currentColumn - 4].name === 'rook' && table[row][currentColumn - 4].firstMove &&
+        table[row][currentColumn - 1].name === '' && table[row][currentColumn - 2].name === '' &&
+        table[row][currentColumn - 3].name === '') {
+        //castling
+        leftCastle(row, column, piece);
+      }
+    }
   }
+
+  function rightCastle(row, column, piece) {
+    const newTable = [...table]
+    newTable[currentRow][currentColumn].clicked = false;
+    newTable[row][currentColumn + 2] = piece;
+    newTable[row][currentColumn + 1] = newTable[row][currentColumn + 3];
+
+    newTable[row][currentColumn + 1].firstMove = false;
+    newTable[row][currentColumn + 2].firstMove = false;
+
+    newTable[row][currentColumn] = { name: "" }
+    newTable[row][currentColumn + 3] = { name: "" }
+
+    moveValid(row, column, newTable)
+  }
+
+  function leftCastle(row, column, piece) {
+    const newTable = [...table]
+    newTable[currentRow][currentColumn].clicked = false;
+    newTable[row][currentColumn - 2] = piece;
+    newTable[row][currentColumn - 1] = newTable[row][currentColumn - 4];
+
+    newTable[row][currentColumn - 1].firstMove = false;
+    newTable[row][currentColumn - 2].firstMove = false;
+
+    newTable[row][currentColumn] = { name: "" }
+    newTable[row][currentColumn - 4] = { name: "" }
+
+    moveValid(row, column, newTable)
+  }
+
+
 
   function isQueenMoveValid(row, column) {
     return isBishopMoveValid(row, column) || isRookMoveValid(row, column)
@@ -183,18 +233,23 @@ export default function App() {
         ((Math.abs(row - currentRow) === 1 && Math.abs(column - currentColumn) === 2))))
   }
 
-  if (isNewClient) {
-    return (
-      <div className="App" >
-        {/* <GreetingNewUser setIsNewClient={setIsNewClient} setUser={setUser} />; */}
-        <Table table={table} onCellClick={onCellClick} clicked={isClicked} onMove={onMove} />
-      </div>
-    )
-  } else {
-    return (
-      <div className="App">
-        <Table table={table} onCellClick={onCellClick} clicked={isClicked} onMove={onMove} />
-      </div>
-    );
+  function checkCheck() {
+
   }
+
+
+  // if (isNewClient) {
+  //   return (
+  //     <div className="App" >
+  //       <GreetingNewUser setIsNewClient={setIsNewClient} setUser={setUser} />;
+  //       <Table table={table} onCellClick={onCellClick} clicked={isClicked} onMove={onMove} />
+  //     </div>
+  //   )
+  // } else {
+  return (
+    <div className="App">
+      <Table table={table} onCellClick={onCellClick} clicked={isClicked} onMove={onMove} />
+    </div>
+  );
 }
+// }

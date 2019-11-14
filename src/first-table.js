@@ -17,9 +17,16 @@ for (let row = 0; row < numberOfColumns; row++) {
 }
 
 table[0][0].name = 'rook';
+table[0][0].firstMove = true
+
 table[0][7].name = 'rook';
+table[0][7].firstMove = true
+
 table[7][0].name = 'rook';
+table[7][0].firstMove = true
+
 table[7][7].name = 'rook';
+table[7][7].firstMove = true
 
 table[0][1].name = 'knight'
 table[0][6].name = 'knight'
@@ -33,7 +40,9 @@ table[7][5].name = 'bishop'
 
 table[0][3].name = 'queen'
 table[0][4].name = 'king'
+table[0][4].firstMove = true
 table[7][3].name = 'queen'
 table[7][4].name = 'king'
+table[7][4].firstMove = true
 
 export default table;
