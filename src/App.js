@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Table from './Table'
 import firstTable from './first-table'
-//import GreetingNewUser from './GreetingNewUser'
+import GreetingNewUser from './GreetingNewUser'
 //import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 const moveSound = new Audio(require('./moveSound.wav'));
@@ -10,8 +10,8 @@ const moveSound = new Audio(require('./moveSound.wav'));
 export default function App() {
   const [table, updateTable] = useState(firstTable)
   const [isClicked, click] = useState(false);
-  //const [isNewClient, setIsNewClient] = useState(true);
-  //const [user, setUser] = useState({ username: null, password: null })
+  const [isNewClient, setIsNewClient] = useState(true);
+  const [user, setUser] = useState({ username: null, password: null })
   const [currentRow, updateRow] = useState();
   const [currentColumn, updateColumn] = useState();
   const [player, updatePlayer] = useState("white")
@@ -233,23 +233,19 @@ export default function App() {
         ((Math.abs(row - currentRow) === 1 && Math.abs(column - currentColumn) === 2))))
   }
 
-  function checkCheck() {
 
+  if (isNewClient) {
+    return (
+      <div className="App" >
+        <GreetingNewUser setIsNewClient={setIsNewClient} setUser={setUser} />;
+        {/* <Table table={table} onCellClick={onCellClick} clicked={isClicked} onMove={onMove} /> */}
+      </div>
+    )
+  } else {
+    return (
+      <div className="App">
+        <Table table={table} onCellClick={onCellClick} clicked={isClicked} onMove={onMove} />
+      </div>
+    );
   }
-
-
-  // if (isNewClient) {
-  //   return (
-  //     <div className="App" >
-  //       <GreetingNewUser setIsNewClient={setIsNewClient} setUser={setUser} />;
-  //       <Table table={table} onCellClick={onCellClick} clicked={isClicked} onMove={onMove} />
-  //     </div>
-  //   )
-  // } else {
-  return (
-    <div className="App">
-      <Table table={table} onCellClick={onCellClick} clicked={isClicked} onMove={onMove} />
-    </div>
-  );
 }
-// }
