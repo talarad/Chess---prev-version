@@ -10,7 +10,7 @@ const moveSound = new Audio(require('./moveSound.wav'));
 export default function App() {
   const [table, updateTable] = useState(firstTable)
   const [isClicked, click] = useState(false);
-  const [isNewClient, setIsNewClient] = useState(true);
+  const [isNewUser, setIsNewUser] = useState(true);
   const [user, setUser] = useState({ username: null, password: null })
   const [currentRow, updateRow] = useState();
   const [currentColumn, updateColumn] = useState();
@@ -234,10 +234,10 @@ export default function App() {
   }
 
 
-  if (isNewClient) {
+  if (isNewUser) {
     return (
       <div className="App" >
-        <GreetingNewUser setIsNewClient={setIsNewClient} setUser={setUser} />;
+        <GreetingNewUser setIsNewUser={setIsNewUser} setUser={setUser} />
         {/* <Table table={table} onCellClick={onCellClick} clicked={isClicked} onMove={onMove} /> */}
       </div>
     )
