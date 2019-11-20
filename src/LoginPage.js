@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
+import { useState } from 'react';
 
 export default function LoginPage(props) {
+    const [loginAttempts, setLoginAttempts] = useState(1);
     const userData = { name: null, password: null };
 
     useEffect(() => handleInput.current.focus());// Focus on "name" input
@@ -8,7 +10,7 @@ export default function LoginPage(props) {
 
     function submitUsername(enter) {
         if (enter.keyCode === 13) {
-            userData.username = document.getElementById('inputedUsername').value;
+            userData.name = document.getElementById('inputedUsername').value;
             document.getElementById('inputedPassword').focus();
         }
     }
@@ -22,36 +24,74 @@ export default function LoginPage(props) {
 
     function userLogin(userData) {
         fetch('./validateLoginUser', {
-            method: 'POST' ,
+            method: 'POST',
             credentials: 'include',// What does it do?
             headers: {
                 Accept: 'application/json',// What does it do?
                 'Content-Type': 'application/json'// What does it do?
             },
-            body: JSON.stringify({ name: userData.username, password: userData.password })
-        }).then(res => res.text()).then(res => console.log(res));
+            body: JSON.stringify({ name: userData.name, password: userData.password })
+        }).then(res => res.text()).then(res => {
+            if (res === "valid") {
+                props.setUser({ userData });
+                props.setIsLoggingIn(false);
+                props.setIsNewUser(false);
+            } else if (res === "wrongPassword") {
+                alert(`Wrong password, login attempts: ${loginAttempts}`);
+                setLoginAttempts(loginAttempts + 1);
+            } else {
+                alert(`User name not found, login attempts: ${loginAttempts}`);
+                setLoginAttempts(loginAttempts + 1);
+            }
+        });
 
-        props.setUser({ userData });
-        props.setIsLoggingIn(false);
     }
 
-    return (
-        <div>
-            <div id='login'>
-                username
+    if (loginAttempts === 1) {
+        return (
+            <div>
+                <div id='login'>
+                    username
+                        <input
+                        key="first-login-input"
+                        type='text'
+                        id="inputedUsername"
+                        ref={handleInput}
+                        onKeyDown={(input) => submitUsername(input)} />
+                    password
                     <input
-                    type='text'
-                    id="inputedUsername"
-                    ref={handleInput}
-                    onKeyDown={(input) => submitUsername(input)} />
-                password
-                <input
-                    id='inputedPassword'
-                    onKeyDown={(input) => submitPassword(input)} />
-                <button className='button' onClick={() => userLogin()}>
-                    submit
-                </button>
+                        key="first-login-password"
+                        id='inputedPassword'
+                        onKeyDown={(input) => submitPassword(input)} />
+                    <button className='button' onClick={() => userLogin()}>
+                        submit
+                    </button>
+                </div>
             </div>
-        </div>
-    )
+        )
+    } else {
+        return (
+            <div>
+                <div id='login'>
+                    username
+                        <input
+                        key={`login-after-attempt + ${loginAttempts}`}
+                        defaultValue=""
+                        type='text'
+                        id="inputedUsername"
+                        ref={handleInput}
+                        onKeyDown={(input) => submitUsername(input)} />
+                    password
+                    <input
+                        key={`password-after-attempt  + ${loginAttempts}`}
+                        defaultValue=""
+                        id='inputedPassword'
+                        onKeyDown={(input) => submitPassword(input)} />
+                    <button className='button' onClick={() => userLogin()}>
+                        submit
+                    </button>
+                </div>
+            </div>
+        )
+    }
 }
