@@ -3,17 +3,22 @@ import Cell from './Cell'
 import './App.css';
 
 export default function Table(props) {
-    
     return (
-        <div>
-            {props.table.map((row, counter) => {
-                return (<div className="row" key={counter}>{row.map((cell, index) => {
-                    return (<Cell key={index} row={counter} column={index} cell={cell}
-                        onCellClick={(row, column) => props.onCellClick(row, column)} clicked={props.clicked}
-                        onMove={(row, column) => props.onCellClick(row, column)} />)
-                })}</div>)
-            })
-            }
+        <div>{props.table.map(
+            (row, rowIndex) => (
+                <div className="row" key={rowIndex}>
+                    {row.map((cell, cellIndex) => (
+                        <Cell
+                            key={cellIndex}
+                            row={rowIndex}
+                            column={cellIndex}
+                            cell={cell}
+                            onCellClick={(row, column) => props.onCellClick(row, column)}
+                        />))
+                    }
+                </div>
+            ))
+        }
         </div>
     )
 }
